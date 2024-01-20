@@ -115,6 +115,7 @@ do
                     Console.WriteLine(listOfTodo[i]);
                 }
                 
+                Console.WriteLine("dupa");
                 Console.WriteLine("Press enter to continue"); 
                 Console.ReadKey();
                 break;
