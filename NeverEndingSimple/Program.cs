@@ -88,14 +88,12 @@ do
                     
                     if (todoCount < maxTodos)
                     {
-                        Console.WriteLine("Do you want to make another entry?");
+                        Console.WriteLine("Do you want to make another entry?(y/n)");
                         do
                         {
                             input = Console.ReadLine();
                             if (input != null)
-                            {
                                 anotherEntry = input.ToLower();
-                            }
                             
                         } while (anotherEntry != "y" && anotherEntry != "n");
                     }
@@ -160,14 +158,8 @@ do
                         do
                         {
                             input = Console.ReadLine();
-                            if (!string.IsNullOrEmpty(input) && input == "y" && input == "n")
-                            {
+                            if (input != null)
                                 anotherEntry = input.ToLower();
-                            }
-                            else
-                            {
-                                Console.WriteLine("Incorrect input, must be y or n");
-                            }
                                             
                         } while (anotherEntry != "y" && anotherEntry != "n");
                     }
