@@ -2,6 +2,7 @@
 int maxTodos = 6;
 string[] listOfTodo = new string[maxTodos];
 var menuSelection = "";
+
 for (int i = 0; i < maxTodos; i++)
 {
     string todo;
@@ -11,10 +12,10 @@ for (int i = 0; i < maxTodos; i++)
             todo = "Kupic mleko";
             break;
         case 1:
-            todo = "Kupic mleko";
+            todo = "Kupic something also";
             break;
         case 2:
-            todo = "Kupic mleko";
+            todo = "Kupic something";
             break;
         default:
             todo = "";
@@ -40,9 +41,8 @@ do
         menuSelection = input.ToLower();
     }
 
-    bool correctInput = false;
+    bool correctInput;
     string anotherEntry;
-    var todoCount = 0;
     switch (menuSelection)
         {
             case "s":
@@ -50,13 +50,12 @@ do
                {
                    Console.WriteLine(listOfTodo[i]);
                }
-               Console.WriteLine("Press enter to continue");
-               Console.ReadKey();
+               PressEnterToContinue();
                break;
 
            case "a":
                 anotherEntry = "y";
-                todoCount = 0;
+                var todoCount = 0;
                 for (int i = 0; i < maxTodos; i++)
                 {
                     if (listOfTodo[i] != $"{i}: ")
@@ -83,8 +82,10 @@ do
                             correctInput = false;
                         }
                     } while (correctInput == false);
+                    
                     listOfTodo[todoCount] = $"{todoCount}: " + todoWords;
                     todoCount += 1;
+                    
                     if (todoCount < maxTodos)
                     {
                         Console.WriteLine("Do you want to make another entry?");
@@ -105,23 +106,23 @@ do
                     Console.WriteLine("Entries are full");
                     Console.WriteLine("Remove old entires to create space");
                 }
-                Console.WriteLine("Press enter to continue"); 
-                Console.ReadKey();
+                
+                PressEnterToContinue();
                 break;
             case "r":
                 anotherEntry = "y";
-                todoCount = 0;
+                int todoRemoveCount = maxTodos;
                 correctInput = false; 
                 
-                for (int i = 0; i < maxTodos; i++)
+                for (var i = 0; i < maxTodos; i++)
                 {
                     if (listOfTodo[i] != $"{i}: ")
                     {
-                        todoCount -= 1;
+                        todoRemoveCount -= 1;
                     }
                 }
                 
-                while (anotherEntry == "y" && todoCount < maxTodos)
+                while (anotherEntry == "y" && todoRemoveCount < maxTodos)
                 {
                     do
                     {
@@ -134,8 +135,9 @@ do
                         {
                             if (index < maxTodos)
                             {
-                                listOfTodo[index].Remove(index);
+                                listOfTodo[index] = $"{index}: " + "";
                                 Console.WriteLine($"You removed {index} {listOfTodo[index]}");
+                                
                                 correctInput = true;
                             }
                             else
@@ -145,35 +147,38 @@ do
                         }
                         else
                         {
-                            Console.WriteLine("Incorrect inut, must declare number");
+                            Console.WriteLine("Incorrect input, must declare number");
                             correctInput = false;
                         }
                     } while (correctInput == false);
+
+                    todoRemoveCount--;
                     
-                    todoCount -= 1;
-                    
-                    if (todoCount < maxTodos)
+                    if (todoRemoveCount < maxTodos)
                     {
-                        Console.WriteLine("Do you want to remove another entry?");
+                        Console.WriteLine("Do you want to remove another entry?(y/n)");
                         do
                         {
                             input = Console.ReadLine();
-                            if (input != null)
+                            if (!string.IsNullOrEmpty(input) && input == "y" && input == "n")
                             {
                                 anotherEntry = input.ToLower();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Incorrect input, must be y or n");
                             }
                                             
                         } while (anotherEntry != "y" && anotherEntry != "n");
                     }
                 }
                 
-                if (todoCount <= maxTodos)
+                if (todoRemoveCount < maxTodos)
                 {
                     Console.WriteLine("Entries are empty");
                 }
-
-                Console.WriteLine("Press enter to continue"); 
-                Console.ReadKey();
+                
+                PressEnterToContinue();
                 break;
             case "e":
                Console.Clear();
@@ -188,3 +193,11 @@ do
         }
     
 } while (menuSelection != "exit");
+
+return;
+
+void PressEnterToContinue()
+{
+    Console.WriteLine("Press enter to continue"); 
+    Console.ReadKey();
+}
