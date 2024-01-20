@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NeverEndingSimple")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e01edf892d32eed9e247b54080be65a3ce6cd550")]
 [assembly: System.Reflection.AssemblyProductAttribute("NeverEndingSimple")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NeverEndingSimple")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
