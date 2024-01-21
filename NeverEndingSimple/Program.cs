@@ -46,14 +46,13 @@ do
     switch (menuSelection)
         {
             case "s":
-               for (var i = 0; i < maxTodos; i++)
-               {
-                   Console.WriteLine(listOfTodo[i]);
-               }
-               PressEnterToContinue();
-               break;
+                foreach (var todo in listOfTodo)
+                    Console.WriteLine(todo);
+                
+                PressEnterToContinue();
+                break;
 
-           case "a":
+            case "a":
                 anotherEntry = "y";
                 var todoCount = 0;
                 for (int i = 0; i < maxTodos; i++)
