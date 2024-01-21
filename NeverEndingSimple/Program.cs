@@ -37,10 +37,18 @@ do
                 {
                     Console.WriteLine("What do you want to add?");
                     input = Console.ReadLine();
-                    if (input != null)
+                    if (!string.IsNullOrEmpty(input) && input != " ")
                     {
-                        todoWords = input;
-                        correctInput = true;
+                        if (listOfTodo.Contains(input) == false)
+                        {
+                            todoWords = input;
+                            correctInput = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("This TODO already exists");
+                            correctInput = false;
+                        }
                     }
                     else
                     {
@@ -66,7 +74,7 @@ do
             correctInput = false;
             ListAllTodos();
 
-            while (anotherEntry == "y")
+            while (anotherEntry == "y" && listOfTodo.Count != 0)
             {
                 do
                 {
@@ -75,9 +83,9 @@ do
                     input = Console.ReadLine();
                     if (input != null && int.TryParse(input, out var index))
                     {
-                        if (index < listOfTodo.Count)
+                        if (index <= listOfTodo.Count)
                         {
-                            listOfTodo.RemoveAt(index);
+                            listOfTodo.RemoveAt(index - 1);
                             Console.WriteLine("Entry removed");
                             correctInput = true;
                         }
@@ -98,11 +106,14 @@ do
                     Console.WriteLine("Do you want to remove another entry?(y/n)");
                     input = Console.ReadLine();
                     if (input != null) anotherEntry = input.ToLower();
-                } while (anotherEntry != "y" && anotherEntry != "n");
+                } while (anotherEntry != "y" && anotherEntry != "n" && listOfTodo.Count != 0);
             }
+
+            if (listOfTodo.Count == 0) Console.WriteLine("There are no TODOs on the list");
 
             PressEnterToContinue();
             break;
+
         case "e":
             Console.Clear();
             Console.WriteLine("Exiting");
@@ -120,8 +131,11 @@ return;
 
 void ListAllTodos()
 {
-    foreach (var todo in listOfTodo)
-        Console.WriteLine(listOfTodo.IndexOf(todo) + "\t" + todo);
+    if (listOfTodo.Count == 0)
+        Console.WriteLine("There are no TODOs on the list");
+    else
+        for (var i = 0; i < listOfTodo.Count; i++)
+            Console.WriteLine($"{i + 1}. {listOfTodo[i]}");
     Console.WriteLine("\n");
 }
 
