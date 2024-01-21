@@ -1,6 +1,4 @@
-﻿// ReSharper disable StringLiteralTypo
-
-var listOfTodo = new List<string>();
+﻿var listOfTodo = new List<string>();
 listOfTodo.AddRange(new[] { "Kupic mleko", "Kupic something also", "Kupic something" });
 var menuSelection = "";
 
@@ -52,7 +50,6 @@ void ListIsEmpty()
     Console.WriteLine("There are no TODOs on the list");
 }
 
-
 void ListAllTodos()
 {
     if (listOfTodo.Count == 0)
@@ -62,36 +59,38 @@ void ListAllTodos()
             Console.WriteLine($"{i + 1}. {listOfTodo[i]}");
 }
 
-
 void PressEnterToContinue()
 {
     Console.WriteLine("Press enter to continue");
     Console.ReadKey();
 }
 
-
 void AddNewTodo()
 {
-    Console.WriteLine("What do you want to add?");
-    var input = Console.ReadLine();
-    if (!string.IsNullOrEmpty(input) && input != " ")
+    string? input;
+    do
     {
-        if (listOfTodo.Contains(input) == false)
-        {
-            listOfTodo.Add(input);
-            Console.WriteLine("Entry added");
-        }
-        else
-        {
-            Console.WriteLine("This TODO already exists");
-        }
-    }
-    else
-    {
-        Console.WriteLine("Input can't be empty");
-    }
+        Console.WriteLine("What do you want to add?");
+        input = Console.ReadLine();
+    } while (!IsInputCorrect(input));
+
+    if (input != null) listOfTodo.Add(input);
 }
 
+bool IsInputCorrect(string? input)
+{
+    if (string.IsNullOrEmpty(input) && input != " ")
+    {
+        Console.WriteLine("Input can't be empty");
+        return false;
+    }
+    if (listOfTodo.Contains(input))
+    {
+        Console.WriteLine("This TODO already exists");
+        return false;
+    }
+    return true;
+}
 
 void HandleAnotherEntry(Action todoAction)
 {
@@ -108,7 +107,6 @@ void HandleAnotherEntry(Action todoAction)
         }
     }
 }
-
 
 void RemoveTodo()
 {
@@ -138,7 +136,6 @@ void RemoveTodo()
         Console.WriteLine("Incorrect input, must declare number");
     }
 }
-
 
 void Exit()
 {
