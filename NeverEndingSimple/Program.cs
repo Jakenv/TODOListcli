@@ -1,28 +1,7 @@
 ﻿// ReSharper disable StringLiteralTypo
-int maxTodos = 6;
-string[] listOfTodo = new string[maxTodos];
+List<string> listOfTodo = new List<string>();
+listOfTodo.AddRange(new[] {"Kupic mleko", "Kupic something also",  "Kupic something"});
 var menuSelection = "";
-
-for (int i = 0; i < maxTodos; i++)
-{
-    string todo;
-    switch (i)
-    {
-        case 0:
-            todo = "Kupic mleko";
-            break;
-        case 1:
-            todo = "Kupic something also";
-            break;
-        case 2:
-            todo = "Kupic something";
-            break;
-        default:
-            todo = "";
-            break;
-    }
-    listOfTodo[i] = $"{i}: " + todo;
-}
 
 do
 {
@@ -46,26 +25,16 @@ do
     switch (menuSelection)
         {
             case "s":
-                foreach (var todo in listOfTodo)
-                    Console.WriteLine(todo);
-                
+                ListAllTodos();
                 PressEnterToContinue();
                 break;
 
             case "a":
                 anotherEntry = "y";
-                var todoCount = 0;
-                for (int i = 0; i < maxTodos; i++)
-                {
-                    if (listOfTodo[i] != $"{i}: ")
-                    {
-                        todoCount += 1;
-                    }
-                }
                 
-                while (anotherEntry == "y" && todoCount < maxTodos)
+                while (anotherEntry == "y")
                 {
-                    string todoWords = "";
+                    var todoWords = "";
                     do
                     {
                         Console.WriteLine("What do you want to add?");
@@ -82,64 +51,44 @@ do
                         }
                     } while (correctInput == false);
                     
-                    listOfTodo[todoCount] = $"{todoCount}: " + todoWords;
-                    todoCount += 1;
-                    
-                    if (todoCount < maxTodos)
-                    {
+                    listOfTodo.Add(todoWords); 
+                    do
+                    {   
                         Console.WriteLine("Do you want to make another entry?(y/n)");
-                        do
-                        {
-                            input = Console.ReadLine();
-                            if (input != null)
-                                anotherEntry = input.ToLower();
-                            
-                        } while (anotherEntry != "y" && anotherEntry != "n");
-                    }
-                }
-
-                if (todoCount >= maxTodos)
-                {
-                    Console.WriteLine("Entries are full");
-                    Console.WriteLine("Remove old entires to create space");
+                        input = Console.ReadLine();
+                        if (input != null)
+                            anotherEntry = input.ToLower();
+                        
+                    } while (anotherEntry != "y" && anotherEntry != "n");
                 }
                 
                 PressEnterToContinue();
                 break;
             case "r":
                 anotherEntry = "y";
-                int todoRemoveCount = maxTodos;
-                correctInput = false; 
+                correctInput = false;
+
+                foreach (var todo in listOfTodo)
+                    Console.WriteLine(todo);
                 
-                for (var i = 0; i < maxTodos; i++)
-                {
-                    if (listOfTodo[i] != $"{i}: ")
-                    {
-                        todoRemoveCount -= 1;
-                    }
-                }
-                
-                while (anotherEntry == "y" && todoRemoveCount < maxTodos)
+                while (anotherEntry == "y")
                 {
                     do
                     {
-                        for (var i = 0; i < maxTodos; i++)
-                            Console.WriteLine(listOfTodo[i]);
-                        
                         Console.WriteLine("Which TODO you want to remove?");
+                        ListAllTodos();
                         input = Console.ReadLine();
                         if (input != null && int.TryParse(input, out var index))
                         {
-                            if (index < maxTodos)
+                            if (index < listOfTodo.Count)
                             {
-                                listOfTodo[index] = $"{index}: " + "";
-                                Console.WriteLine($"You removed {index} {listOfTodo[index]}");
-                                
+                                listOfTodo.RemoveAt(index);
+                                Console.WriteLine("Entry removed");
                                 correctInput = true;
                             }
                             else
                             {
-                                Console.WriteLine("Number must be between 0 and 5");
+                                Console.WriteLine($"Number must be between 0 and {listOfTodo.Count - 1}");
                             }
                         }
                         else
@@ -147,28 +96,18 @@ do
                             Console.WriteLine("Incorrect input, must declare number");
                             correctInput = false;
                         }
-                    } while (correctInput == false);
+                    } while (correctInput != true && anotherEntry == "y");
 
-                    todoRemoveCount--;
-                    
-                    if (todoRemoveCount < maxTodos)
+                    do
                     {
                         Console.WriteLine("Do you want to remove another entry?(y/n)");
-                        do
+                        input = Console.ReadLine();
+                        if (input != null)
                         {
-                            input = Console.ReadLine();
-                            if (input != null)
-                                anotherEntry = input.ToLower();
-                                            
-                        } while (anotherEntry != "y" && anotherEntry != "n");
-                    }
+                            anotherEntry = input.ToLower();
+                        }
+                    } while (anotherEntry != "y" && anotherEntry != "n");
                 }
-                
-                if (todoRemoveCount < maxTodos)
-                {
-                    Console.WriteLine("Entries are empty");
-                }
-                
                 PressEnterToContinue();
                 break;
             case "e":
@@ -186,6 +125,14 @@ do
 } while (menuSelection != "exit");
 
 return;
+
+void ListAllTodos()
+{
+    foreach (var todo in listOfTodo)
+        Console.WriteLine(listOfTodo.IndexOf(todo)+"\t"+todo);
+    Console.WriteLine("\n");
+}
+
 
 void PressEnterToContinue()
 {
